@@ -1,8 +1,30 @@
-[gd_scene load_steps=2 format=3 uid="uid://ckphi1dpdwl2v"]
+[gd_scene load_steps=7 format=3 uid="uid://ckphi1dpdwl2v"]
 
 [ext_resource type="Script" path="res://scenes/player/player.gd" id="1_q05l1"]
+[ext_resource type="Script" path="res://state_machine/state_machine.gd" id="2_j1jck"]
+[ext_resource type="Script" path="res://state_machine/Run.gd" id="3_lneup"]
+[ext_resource type="Script" path="res://state_machine/Death.gd" id="4_gniq0"]
+[ext_resource type="Script" path="res://state_machine/Jump.gd" id="5_xsy61"]
+[ext_resource type="Script" path="res://state_machine/Idle.gd" id="6_s6qho"]
 
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_q05l1")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("current_state")]
+script = ExtResource("2_j1jck")
+current_state = NodePath("Run")
+
+[node name="Run" type="Node" parent="StateMachine" node_paths=PackedStringArray("player")]
+script = ExtResource("3_lneup")
+player = NodePath("../..")
+
+[node name="Death" type="Node" parent="StateMachine"]
+script = ExtResource("4_gniq0")
+
+[node name="Jump" type="Node" parent="StateMachine"]
+script = ExtResource("5_xsy61")
+
+[node name="Idle" type="Node" parent="StateMachine"]
+script = ExtResource("6_s6qho")
